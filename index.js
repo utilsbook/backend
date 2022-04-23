@@ -8,7 +8,7 @@ const app = new koa();
 
 // index page
 app.use(function* (next) {
-  this.body = 'hello world from ' + this.request.url;
+  this.body = 'Backend: hello world from ' + this.request.url;
 });
 
 // SSL options
