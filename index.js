@@ -8,7 +8,7 @@ const app = new koa();
 
 // index page
 app.use(function* (next) {
-  this.body = 'Backend: hello world from ' + this.request.url;
+  this.body = 'Build By Jenkins, From: ' + this.request.url;
 });
 
 // SSL options
