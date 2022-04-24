@@ -13,8 +13,8 @@ app.use(function* (next) {
 
 // SSL options
 const options = {
-  key: fs.readFileSync('../ssl/icode.key'), //ssl文件路径
-  cert: fs.readFileSync('../ssl/icode.pem'), //ssl文件路径
+  key: fs.readFileSync('/root/ssh/icode.key'), //ssl文件路径
+  cert: fs.readFileSync('/root/ssl/icode.pem'), //ssl文件路径
 };
 
 https.createServer(options, app.callback()).listen(996);
