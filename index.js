@@ -1,14 +1,50 @@
 'use strict';
 
+const fs = require('fs');
 const koa = require('koa');
 const https = require('https');
-const fs = require('fs');
+const axios = require('axios');
+const FormData = require('form-data');
+const qs = require('qs');
 
 const app = new koa();
 
+async function sendSms(phone, code) {
+  const data = {
+    apikey: process.env['YUNPIAN_API_KEY'],
+    mobile: phone,
+    text: `【CodeIn】您的验证码是${code}，请勿泄漏。`,
+  };
+
+  // TEST
+  return axios.post(
+    'https://sms.yunpian.com/v2/sms/single_send.json',
+    qs.stringify(data),
+    {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    }
+  );
+}
+
+function get6NumStr() {
+  return String(Math.floor(Math.random() * 1000000)).padStart(6, '0');
+}
+
+const PHONE_REG = /[1][3578]\d{9}/;
+
 // index page
 app.use(function* (next) {
-  this.body = 'Built by jenkins automatically,View from: ' + this.request.url;
+  const url = this.request.url;
+  const phone = this.request.query.phone;
+
+  if (url.startsWith('/sendSms') && PHONE_REG.test(phone)) {
+    sendSms(phone, get6NumStr());
+    this.body = '成功发送验证码！';
+  } else {
+    this.body = 'Built by jenkins automatically,View from: ' + url;
+  }
 });
 
 // SSL options
@@ -20,5 +56,3 @@ const options = {
 https.createServer(options, app.callback()).listen(996);
 
 console.log('https server is running');
-
-// TEST
