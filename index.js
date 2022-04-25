@@ -4,7 +4,6 @@ const fs = require('fs');
 const koa = require('koa');
 const https = require('https');
 const axios = require('axios');
-const FormData = require('form-data');
 const qs = require('qs');
 
 const app = new koa();
