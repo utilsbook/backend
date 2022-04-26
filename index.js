@@ -40,7 +40,7 @@ app.use(function* (next) {
 
   if (url.startsWith('/sendSms') && PHONE_REG.test(phone)) {
     sendSms(phone, get6NumStr());
-    this.body = '成功发送验证码！';
+    this.body = `成功发送验证码: ${phone}`;
   } else {
     this.body = 'Built by jenkins automatically,View from: ' + url;
   }
