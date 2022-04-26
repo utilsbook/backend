@@ -39,8 +39,9 @@ app.use(function* (next) {
   const phone = this.request.query.phone;
 
   if (url.startsWith('/sendSms') && PHONE_REG.test(phone)) {
-    sendSms(phone, get6NumStr());
-    this.body = `成功发送验证码: ${phone}`;
+    const code = get6NumStr();
+    sendSms(phone, code);
+    this.body = `成功给${phone}发送验证码: ${code}`;
   } else {
     this.body = 'Built by jenkins automatically,View from: ' + url;
   }
